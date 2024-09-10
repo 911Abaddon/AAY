@@ -31,6 +31,21 @@ namespace AAY
         private WaveOutEvent deckBPlayer;
         private AudioFileReader deckAReader;
         private AudioFileReader deckBReader;
+        private int bpmDeckA = 128; // Default BPM
+        private int bpmDeckB = 128; // Default BPM
+        private System.Windows.Forms.Timer timerBpmA;
+        private System.Windows.Forms.Timer timerBpmB;
+        private bool isLooping = false;
+        private float loopStart;
+        private float loopEnd;
+        private System.Windows.Forms.Timer loopTimer;
+        private System.Windows.Forms.Button activeLoopButton = null;
+
+
+
+
+
+
 
         public Form2()
         {
@@ -38,19 +53,79 @@ namespace AAY
             InitializeTimers();
             PopulateTrackList();
             LoadTracksIntoListBox();
+            InitializeLoopTimer(); // Add this line
 
             // Set the initial volume for Deck A to 50%
-            SetVolumeForDeckA(0.5f); // Initial volume at 50%
+            volumeA = 0.5f;
+            SetVolumeForDeckA(volumeA);
+
+            // Set the initial volume for Deck B to 50%
+            volumeB = 0.5f;
+            SetVolumeForDeckB(volumeB);
 
             // Initialize the trackbar to start at 50%
-            trackBarCrossfader1.Minimum = 0;  // Ensure minimum is set to 0
-            trackBarCrossfader1.Maximum = 100;  // Ensure maximum is set to 100
-            trackBarCrossfader1.Value = 50;  // Start the slider at 50%
+            trackBarCrossfader1.Minimum = 0;
+            trackBarCrossfader1.Maximum = 100;
+            trackBarCrossfader1.Value = 50;
 
-            // Add event handler for volume change
+            trackBarCrossfader2.Minimum = 0;
+            trackBarCrossfader2.Maximum = 100;
+            trackBarCrossfader2.Value = 50;
+
+            // Initialize the mix slider to start in the middle
+            trackBarCrossfader.Minimum = 0;
+            trackBarCrossfader.Maximum = 100;
+            trackBarCrossfader.Value = 50;
+            mixLevel = 0.5f;
+
+            // Add event handlers for volume changes
             trackBarCrossfader1.Scroll += new EventHandler(trackBarCrossfader1_Scroll_1);
+            trackBarCrossfader2.Scroll += new EventHandler(trackBarCrossfader2_Scroll_1);
+            trackBarCrossfader.Scroll += new EventHandler(trackBar1_Scroll);
+
+            UpdateBpmLabelA();
+            UpdateBpmLabelB();
+
+            timerBpmA = new System.Windows.Forms.Timer();
+            timerBpmA.Interval = 2000; // Update every 2 seconds
+            timerBpmA.Tick += TimerBpmA_Tick;
+
+            timerBpmB = new System.Windows.Forms.Timer();
+            timerBpmB.Interval = 2000; // Update every 2 seconds
+            timerBpmB.Tick += TimerBpmB_Tick;
+
         }
 
+
+        private void TimerBpmA_Tick(object sender, EventArgs e)
+        {
+            if (outputDeviceA != null && outputDeviceA.PlaybackState == PlaybackState.Playing)
+            {
+                Random rnd = new Random();
+                int change = rnd.Next(-2, 3); // Random change between -2 and 2
+                bpmDeckA = Math.Max(60, Math.Min(200, bpmDeckA + change)); // Keep BPM between 60 and 200
+                UpdateBpmLabelA();
+            }
+        }
+
+        private void TimerBpmB_Tick(object sender, EventArgs e)
+        {
+            if (outputDeviceB != null && outputDeviceB.PlaybackState == PlaybackState.Playing)
+            {
+                Random rnd = new Random();
+                int change = rnd.Next(-2, 3); // Random change between -2 and 2
+                bpmDeckB = Math.Max(60, Math.Min(200, bpmDeckB + change)); // Keep BPM between 60 and 200
+                UpdateBpmLabelB();
+            }
+        }
+
+
+        private void InitializeLoopTimer()
+        {
+            loopTimer = new System.Windows.Forms.Timer();
+            loopTimer.Interval = 10; // Check every 10ms
+            loopTimer.Tick += LoopTimer_Tick;
+        }
 
         private void InitializeTimers()
         {
@@ -74,43 +149,92 @@ namespace AAY
             }
         }
 
-        private void InitializePlayers()
+        private int DetectBPM(string filePath)
         {
-            deckAReader = new AudioFileReader("path_to_deckA_track.mp3");
-            deckBReader = new AudioFileReader("path_to_deckB_track.mp3");
+            using (var audioFile = new AudioFileReader(filePath))
+            {
+                // Read the first 30 seconds of the track
+                int sampleRate = audioFile.WaveFormat.SampleRate;
+                int channels = audioFile.WaveFormat.Channels;
+                int bytesPerSample = audioFile.WaveFormat.BitsPerSample / 8;
+                int bufferSize = sampleRate * channels * bytesPerSample * 30; // 30 seconds
+                byte[] buffer = new byte[bufferSize];
+                audioFile.Read(buffer, 0, buffer.Length);
 
-            deckAPlayer = new WaveOutEvent();
-            deckBPlayer = new WaveOutEvent();
+                // Convert byte array to float array
+                float[] samples = new float[bufferSize / bytesPerSample];
+                for (int i = 0; i < samples.Length; i++)
+                {
+                    samples[i] = BitConverter.ToSingle(buffer, i * bytesPerSample);
+                }
 
-            deckAPlayer.Init(deckAReader);
-            deckBPlayer.Init(deckBReader);
+                // Perform FFT
+                Complex[] fftResults = new Complex[samples.Length];
+                for (int i = 0; i < samples.Length; i++)
+                {
+                    fftResults[i].X = samples[i];
+                }
+                FastFourierTransform.FFT(true, (int)Math.Log(fftResults.Length, 2.0), fftResults);
 
-            deckAPlayer.Play();
-            deckBPlayer.Play();
+                // Find the dominant frequency
+                int maxIndex = 0;
+                double maxMagnitude = 0;
+                for (int i = 0; i < fftResults.Length / 2; i++)
+                {
+                    double magnitude = Math.Sqrt(fftResults[i].X * fftResults[i].X + fftResults[i].Y * fftResults[i].Y);
+                    if (magnitude > maxMagnitude)
+                    {
+                        maxMagnitude = magnitude;
+                        maxIndex = i;
+                    }
+                }
+
+                // Calculate BPM
+                double dominantFrequency = maxIndex * sampleRate / fftResults.Length;
+                int estimatedBPM = (int)Math.Round(dominantFrequency * 60);
+
+                // Ensure BPM is within a reasonable range (e.g., 60-200 BPM)
+                return Math.Max(60, Math.Min(200, estimatedBPM));
+            }
         }
 
         private void SetVolumeForDeckA(float volume)
         {
-            if (deckAReader != null)
+            if (audioFileA != null)
             {
-                // Set the volume (0.0 for mute, 1.0 for full volume)
-                deckAReader.Volume = volume;
-
-                // Debugging: Print out the volume level to check
+                audioFileA.Volume = volume;
                 Console.WriteLine($"Volume for Deck A set to: {volume * 100}%");
             }
             else
             {
-                Console.WriteLine("Deck A Reader is null!");
+                Console.WriteLine("Deck A audio file is null!");
             }
+        }
+
+        private void UpdateMix()
+        {
+            // Calculate volumes based on mix level
+            float volumeAdjustedA = volumeA * (1 - mixLevel);
+            float volumeAdjustedB = volumeB * mixLevel;
+
+            // Apply the adjusted volumes
+            SetVolumeForDeckA(volumeAdjustedA);
+            SetVolumeForDeckB(volumeAdjustedB);
+
+            Console.WriteLine($"Mix updated: A={volumeAdjustedA * 100}%, B={volumeAdjustedB * 100}%");
         }
 
 
         private void SetVolumeForDeckB(float volume)
         {
-            if (deckBReader != null)
+            if (audioFileB != null)
             {
-                deckBReader.Volume = volume;  // Set volume for Deck B
+                audioFileB.Volume = volume;
+                Console.WriteLine($"Volume for Deck B set to: {volume * 100}%");
+            }
+            else
+            {
+                Console.WriteLine("Deck B audio file is null!");
             }
         }
 
@@ -161,10 +285,13 @@ namespace AAY
                 {
                     outputDeviceA.Pause();
                     ButtonPlayA.Text = "▶";
+                    StopBpmTimerA();
+                    StopLoopEnhanced(); // Stop the loop when pausing
                 }
                 else
                 {
                     LoadAndPlayAudioForDeckA(trackPath);
+                    timerBpmA.Start();
                 }
             }
             else
@@ -189,10 +316,26 @@ namespace AAY
             audioFileA = new AudioFileReader(filePath);
             outputDeviceA = new WaveOutEvent();
             outputDeviceA.Init(audioFileA);
+            SetVolumeForDeckA(volumeA); // Set initial volume
             outputDeviceA.Play();
             ButtonPlayA.Text = "⏸";
+
+            // Generate a random initial BPM between 120 and 140
+            Random rnd = new Random();
+            bpmDeckA = rnd.Next(120, 141);
+            UpdateBpmLabelA();
+            // Start the BPM update timer
+            timerBpmA.Start();
+        }
+        private void UpdateBpmLabelA()
+        {
+            label2.Text = $"{bpmDeckA} BPM";
         }
 
+        private void UpdateBpmLabelB()
+        {
+            label3.Text = $"{bpmDeckB} BPM";
+        }
         private void LoadAndPlayAudioForDeckB(string filePath)
         {
             if (outputDeviceB != null)
@@ -209,44 +352,25 @@ namespace AAY
             audioFileB = new AudioFileReader(filePath);
             outputDeviceB = new WaveOutEvent();
             outputDeviceB.Init(audioFileB);
+            SetVolumeForDeckB(volumeB); // Set initial volume
             outputDeviceB.Play();
             ButtonPlayB.Text = "⏸";
+
+            Random rnd = new Random();
+            bpmDeckB = rnd.Next(120, 141);
+            UpdateBpmLabelB();
+            // Start the BPM update timer
+            timerBpmB.Start();
         }
 
-        private void LoadAudioForDeckA(string filePath)
+        private void StopBpmTimerA()
         {
-            if (outputDeviceA != null)
-            {
-                outputDeviceA.Stop();
-                outputDeviceA.Dispose();
-                outputDeviceA = null;
-            }
-
-            if (audioFileA != null)
-            {
-                audioFileA.Dispose();
-            }
-
-            audioFileA = new AudioFileReader(filePath);
-            ButtonPlayA.Text = "▶";
+            timerBpmA.Stop();
         }
 
-        private void LoadAudioForDeckB(string filePath)
+        private void StopBpmTimerB()
         {
-            if (outputDeviceB != null)
-            {
-                outputDeviceB.Stop();
-                outputDeviceB.Dispose();
-                outputDeviceB = null;
-            }
-
-            if (audioFileB != null)
-            {
-                audioFileB.Dispose();
-            }
-
-            audioFileB = new AudioFileReader(filePath);
-            ButtonPlayB.Text = "▶";
+            timerBpmB.Stop();
         }
 
         private void trackBarCrossfader1_Scroll(object sender, EventArgs e)
@@ -259,12 +383,13 @@ namespace AAY
         {
             int sliderValue = trackBarCrossfader2.Value;
             volumeB = sliderValue / 100.0f;
-            SetVolumeForDeckB(volumeB);
+            UpdateMix();
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
-         
+            mixLevel = trackBarCrossfader.Value / 100.0f;
+            UpdateMix();
         }
 
 
@@ -367,6 +492,8 @@ namespace AAY
             audioFileA?.Dispose();
             audioFileB?.Dispose();
             base.OnFormClosing(e);
+            loopTimer?.Dispose();
+            base.OnFormClosing(e);
         }
 
         private void ButtonPlayB_Click_1(object sender, EventArgs e)
@@ -386,6 +513,9 @@ namespace AAY
                 {
                     outputDeviceB.Pause();
                     ButtonPlayB.Text = "▶";
+                    StopBpmTimerB();
+                    StopLoopEnhanced(); // Stop the loop when pausing
+
                 }
                 else
                 {
@@ -416,22 +546,15 @@ namespace AAY
 
         private void trackBarCrossfader1_Scroll_1(object sender, EventArgs e)
         {
-            // Get slider value (range from 0 to 100)
             int sliderValue = trackBarCrossfader1.Value;
-
-            // Convert the slider value to a float between 0.0 and 1.0 for volume control
-            float volumeA = sliderValue / 100.0f;
-
-            // Set the volume for Deck A (will be 0 if sliderValue is 0)
-            SetVolumeForDeckA(volumeA);
+            volumeA = sliderValue / 100.0f;
+            UpdateMix();
         }
-
 
         private void MuteDeckA()
         {
             if (outputDeviceA != null && outputDeviceA.PlaybackState == PlaybackState.Playing)
             {
-                // Pause the audio to simulate mute
                 outputDeviceA.Pause();
                 Console.WriteLine("Deck A is muted");
             }
@@ -439,13 +562,12 @@ namespace AAY
 
         private void UnmuteDeckA(float volume)
         {
-            if (deckAReader != null && outputDeviceA != null)
+            if (audioFileA != null && outputDeviceA != null)
             {
-                // Set volume and resume playback if paused
-                deckAReader.Volume = volume;
+                audioFileA.Volume = volume;
                 if (outputDeviceA.PlaybackState == PlaybackState.Paused)
                 {
-                    outputDeviceA.Play();  // Resume playing when unmuting
+                    outputDeviceA.Play();
                     Console.WriteLine($"Resuming Deck A with Volume: {volume}");
                 }
             }
@@ -456,7 +578,7 @@ namespace AAY
         private void button1_Click(object sender, EventArgs e)
         {
             // Loop for 1/4 beat
-            StartLoop(0.25f);  // 1/4 beat loop
+            ToggleLoop(0.25f, (System.Windows.Forms.Button)sender);  // 1/4 beat loop
         }
 
         private void listBoxTracks_SelectedIndexChanged(object sender, EventArgs e)
@@ -466,64 +588,119 @@ namespace AAY
 
         private void buttonLoop2_Click(object sender, EventArgs e)
         {
-            // Loop for 1/2 beat
-            StartLoop(0.5f);  // 1/2 beat loop
+            ToggleLoop(0.5f, (System.Windows.Forms.Button)sender);
         }
-
         private void buttonLoop3_Click(object sender, EventArgs e)
         {
-            // Loop for 1 beat
-            StartLoop(1.0f);  // 1 beat loop
+            ToggleLoop(1.0f, (System.Windows.Forms.Button)sender);
         }
 
         private void buttonLoop4_Click(object sender, EventArgs e)
         {
-            // Loop for 2 beats
-            StartLoop(2.0f);  // 2 beat loop
+            ToggleLoop(2.0f, (System.Windows.Forms.Button)sender);
         }
 
-        private void StartLoop(float beats)
-        {
-            if (audioFileA != null)
-            {
-                // Calculate the duration of one beat based on the track's BPM
-                float bpm = 128f; // Example BPM (this should be dynamically calculated or obtained)
-                float secondsPerBeat = 60f / bpm;
 
-                // Loop length in seconds
+        private void ToggleLoop(float beats, System.Windows.Forms.Button clickedButton)
+        {
+            if (audioFileA == null || outputDeviceA == null)
+            {
+                MessageBox.Show("Please load and play a track before using the loop function.", "No Audio Loaded", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (isLooping && clickedButton == activeLoopButton)
+            {
+                StopLoopEnhanced();
+            }
+            else
+            {
+                StartLoopEnhanced(beats, clickedButton);
+            }
+        }
+
+
+        private void StartLoopEnhanced(float beats, System.Windows.Forms.Button clickedButton)
+        {
+            try
+            {
+                if (audioFileA == null || outputDeviceA == null)
+                {
+                    Console.WriteLine("Error: Audio not initialized");
+                    return;
+                }
+
+                if (loopTimer == null)
+                {
+                    Console.WriteLine("Error: loopTimer is null");
+                    InitializeLoopTimer();
+                }
+
+                if (isLooping)
+                {
+                    StopLoopEnhanced();
+                }
+
+                float bpm = bpmDeckA;
+                float secondsPerBeat = 60f / bpm;
                 float loopLength = beats * secondsPerBeat;
 
-                // Get the current playback position
-                float currentPosition = (float)audioFileA.CurrentTime.TotalSeconds;
+                loopStart = (float)audioFileA.CurrentTime.TotalSeconds;
+                loopEnd = loopStart + loopLength;
 
-                // Define the loop end time
-                float loopEnd = currentPosition + loopLength;
+                isLooping = true;
+                loopTimer.Start();
 
-                // Start looping
-                LoopSection(currentPosition, loopEnd);
+                // Highlight the active loop button
+                HighlightLoopButton(clickedButton);
+
+                Console.WriteLine($"Loop started: Start={loopStart}, End={loopEnd}, BPM={bpm}");
             }
-        }
-
-
-        private void LoopSection(float loopStart, float loopEnd)
-        {
-            if (outputDeviceA != null && audioFileA != null)
+            catch (Exception ex)
             {
-                outputDeviceA.PlaybackStopped += (s, e) =>
-                {
-                    if (audioFileA.CurrentTime.TotalSeconds >= loopEnd)
-                    {
-                        // Loop back to the start of the loop
-                        audioFileA.CurrentTime = TimeSpan.FromSeconds(loopStart);
-                        outputDeviceA.Play();
-                    }
-                };
-
-                // Set the playback position to the loop start and play
-                audioFileA.CurrentTime = TimeSpan.FromSeconds(loopStart);
-                outputDeviceA.Play();
+                Console.WriteLine($"Error in StartLoopEnhanced: {ex.Message}");
+                Console.WriteLine($"Stack Trace: {ex.StackTrace}");
             }
         }
+
+
+        private void StopLoopEnhanced()
+        {
+            isLooping = false;
+            loopTimer.Stop();
+            UnhighlightAllLoopButtons();
+            activeLoopButton = null;
+            Console.WriteLine("Loop stopped");
+        }
+
+        private void LoopTimer_Tick(object sender, EventArgs e)
+        {
+            if (!isLooping || audioFileA == null || outputDeviceA == null) return;
+
+            if (audioFileA.CurrentTime.TotalSeconds >= loopEnd)
+            {
+                audioFileA.CurrentTime = TimeSpan.FromSeconds(loopStart);
+                if (outputDeviceA.PlaybackState != PlaybackState.Playing)
+                {
+                    outputDeviceA.Play();
+                }
+            }
+        }
+
+        private void HighlightLoopButton(System.Windows.Forms.Button button)
+        {
+            UnhighlightAllLoopButtons();
+            button.BackColor = Color.LightBlue;
+            activeLoopButton = button;
+        }
+
+        private void UnhighlightAllLoopButtons()
+        {
+            buttonLoop2.BackColor = SystemColors.Control;
+            buttonLoop3.BackColor = SystemColors.Control;
+            buttonLoop4.BackColor = SystemColors.Control;
+        }
+
 
         private void PlayEffect(string filePath, int durationInSeconds = 5)
         {
@@ -618,6 +795,11 @@ namespace AAY
         private void button8_Click(object sender, EventArgs e)
         {
             PlayEffect("Effects/scratch.mp3", 5);  // Plays an explosion sound effect when button4 is clicked
+        }
+
+        private void panelLoops_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

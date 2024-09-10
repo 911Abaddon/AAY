@@ -369,6 +369,7 @@
             this.panelLoops.Name = "panelLoops";
             this.panelLoops.Size = new System.Drawing.Size(297, 134);
             this.panelLoops.TabIndex = 7;
+            this.panelLoops.Paint += new System.Windows.Forms.PaintEventHandler(this.panelLoops_Paint);
             // 
             // buttonLoop4
             // 
