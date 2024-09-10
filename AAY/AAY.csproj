@@ -76,6 +76,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Costumers.cs" />
     <Compile Include="ExhibitionSpaceManagement.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -94,6 +95,18 @@
     <Compile Include="Form2.Designer.cs">
       <DependentUpon>Form2.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmCostumers.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCostumers.Designer.cs">
+      <DependentUpon>frmCostumers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmTicketBooking.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmTicketBooking.Designer.cs">
+      <DependentUpon>frmTicketBooking.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="ExhibitionSpaceManagement.resx">
@@ -104,6 +117,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form2.resx">
       <DependentUpon>Form2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmCostumers.resx">
+      <DependentUpon>frmCostumers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmTicketBooking.resx">
+      <DependentUpon>frmTicketBooking.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
