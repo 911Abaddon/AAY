@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form2));
-            this.label1 = new System.Windows.Forms.Label();
+            this.labelDJ = new System.Windows.Forms.Label();
             this.deck1 = new System.Windows.Forms.Panel();
             this.labelDeckA = new System.Windows.Forms.Label();
             this.pictureBoxDeck1 = new System.Windows.Forms.PictureBox();
@@ -73,9 +73,9 @@
             this.button1 = new System.Windows.Forms.Button();
             this.labelPerformance = new System.Windows.Forms.Label();
             this.ButtonPlayA = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
+            this.label2bpm = new System.Windows.Forms.Label();
             this.ButtonPlayB = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
+            this.label3bpm = new System.Windows.Forms.Label();
             this.deck1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxDeck1)).BeginInit();
             this.deck2.SuspendLayout();
@@ -92,16 +92,16 @@
             this.panelPerformance.SuspendLayout();
             this.SuspendLayout();
             // 
-            // label1
+            // labelDJ
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label1.Location = new System.Drawing.Point(397, 38);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(210, 37);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "VIRTUAL DJ";
+            this.labelDJ.AutoSize = true;
+            this.labelDJ.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelDJ.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.labelDJ.Location = new System.Drawing.Point(397, 38);
+            this.labelDJ.Name = "labelDJ";
+            this.labelDJ.Size = new System.Drawing.Size(210, 37);
+            this.labelDJ.TabIndex = 0;
+            this.labelDJ.Text = "VIRTUAL DJ";
             // 
             // deck1
             // 
@@ -369,6 +369,7 @@
             this.panelLoops.Name = "panelLoops";
             this.panelLoops.Size = new System.Drawing.Size(297, 134);
             this.panelLoops.TabIndex = 7;
+            this.panelLoops.Paint += new System.Windows.Forms.PaintEventHandler(this.panelLoops_Paint);
             // 
             // buttonLoop4
             // 
@@ -589,15 +590,16 @@
             this.ButtonPlayA.UseVisualStyleBackColor = true;
             this.ButtonPlayA.Click += new System.EventHandler(this.ButtonPlayA_Click);
             // 
-            // label2
+            // label2bpm
             // 
-            this.label2.AutoSize = true;
-            this.label2.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label2.Location = new System.Drawing.Point(374, 191);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(51, 13);
-            this.label2.TabIndex = 11;
-            this.label2.Text = "128 BPM";
+            this.label2bpm.AutoSize = true;
+            this.label2bpm.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label2bpm.Location = new System.Drawing.Point(374, 191);
+            this.label2bpm.Name = "label2bpm";
+            this.label2bpm.Size = new System.Drawing.Size(51, 13);
+            this.label2bpm.TabIndex = 11;
+            this.label2bpm.Text = "128 BPM";
+            this.label2bpm.Click += new System.EventHandler(this.label2bpm_Click);
             // 
             // ButtonPlayB
             // 
@@ -610,15 +612,16 @@
             this.ButtonPlayB.UseVisualStyleBackColor = true;
             this.ButtonPlayB.Click += new System.EventHandler(this.ButtonPlayB_Click_1);
             // 
-            // label3
+            // label3bpm
             // 
-            this.label3.AutoSize = true;
-            this.label3.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label3.Location = new System.Drawing.Point(568, 191);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(51, 13);
-            this.label3.TabIndex = 13;
-            this.label3.Text = "130 BPM";
+            this.label3bpm.AutoSize = true;
+            this.label3bpm.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label3bpm.Location = new System.Drawing.Point(568, 191);
+            this.label3bpm.Name = "label3bpm";
+            this.label3bpm.Size = new System.Drawing.Size(51, 13);
+            this.label3bpm.TabIndex = 13;
+            this.label3bpm.Text = "130 BPM";
+            this.label3bpm.Click += new System.EventHandler(this.label3bpm_Click);
             // 
             // Form2
             // 
@@ -626,9 +629,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(44)))), ((int)(((byte)(44)))));
             this.ClientSize = new System.Drawing.Size(1023, 734);
-            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label3bpm);
             this.Controls.Add(this.ButtonPlayB);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label2bpm);
             this.Controls.Add(this.ButtonPlayA);
             this.Controls.Add(this.panelPerformance);
             this.Controls.Add(this.panelBrowser);
@@ -638,7 +641,7 @@
             this.Controls.Add(this.panelMixer);
             this.Controls.Add(this.panelWaveform2);
             this.Controls.Add(this.deck2);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.labelDJ);
             this.Controls.Add(this.deck1);
             this.Name = "Form2";
             this.Text = "Form2";
@@ -673,7 +676,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label labelDJ;
         private System.Windows.Forms.Panel deck1;
         private System.Windows.Forms.PictureBox pictureBoxDeck1;
         private System.Windows.Forms.Panel deck2;
@@ -714,11 +717,11 @@
         private System.Windows.Forms.TrackBar trackBarCrossfader2;
         private System.Windows.Forms.TrackBar trackBarCrossfader1;
         private System.Windows.Forms.Button ButtonPlayA;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label2bpm;
         private System.Windows.Forms.Button ButtonPlayB;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label3bpm;
     }
 }
