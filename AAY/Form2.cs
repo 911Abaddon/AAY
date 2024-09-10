@@ -329,12 +329,12 @@ namespace AAY
         }
         private void UpdateBpmLabelA()
         {
-            label2.Text = $"{bpmDeckA} BPM";
+            label2bpm.Text = $"{bpmDeckA} BPM";
         }
 
         private void UpdateBpmLabelB()
         {
-            label3.Text = $"{bpmDeckB} BPM";
+            label3bpm.Text = $"{bpmDeckB} BPM";
         }
         private void LoadAndPlayAudioForDeckB(string filePath)
         {
@@ -798,6 +798,16 @@ namespace AAY
         }
 
         private void panelLoops_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void label2bpm_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label3bpm_Click(object sender, EventArgs e)
         {
 
         }
