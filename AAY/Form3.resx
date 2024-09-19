@@ -117,20 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="plessas" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\plessas.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="gallia_0" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\gallia_0.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="stavros-xarhokos" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\stavros-xarhokos.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="mikis-theodorakis-1983" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\mikis-theodorakis-1983.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="stavros xarchakos1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\stavros xarchakos1.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="richTextBox1.Text" xml:space="preserve">
+    <value>Ο Μίκης (Μιχαήλ) Θεοδωράκης (Χίος, 29 Ιουλίου 1925 – Αθήνα, 2 Σεπτεμβρίου 2021) ήταν Έλληνας συνθέτης και πολιτικός κρητικής και μικρασιατικής καταγωγής. Θεωρείται ένας από τους σημαντικότερους σύγχρονους Έλληνες μουσικοσυνθέτες και ως μια από τις επιδραστικότερες και σπουδαιότερες προσωπικότητες της Ελλάδας στο δεύτερο ήμισυ του 20ού αιώνα. Ως πολιτικός υπήρξε υπουργός και 5 φορές εκλεγμένος βουλευτής του ελληνικού κοινοβουλίου, μία φορά με την Ε.Δ.Α., δύο φορές με το Κ.Κ.Ε και δύο ως ανεξάρτητος με το ψηφοδέλτιο της Ν.Δ. Μέχρι τον θάνατό του, θεωρούνταν ως ο μεγαλύτερος εν ζωή Έλληνας συνθέτης του 21ου αιώνα.
+
+Συμφωνικά έργα και Μουσική Δωματίου: 1η, 2η, 3η 4η, 7η Συμφωνία, Κατά Σαδδουκαίων, Canto Olympico, Τρίο, Σεξτέτο, Το Πανηγύρι της Αση-Γωνιάς, Ελληνική Αποκριά,Αγρίμια κι' αγριμάκια μου, Κύκλος, Σονατίνα για πιάνο, Έργο για πίανο και ορχήστρα, Έργο για πιάνο και ορχήστρα εγχόρδων, Κουαρτέτο αρ. 1,2,3,4, Ασικικός χορός, 11 Πρελούδια για πιάνο,Σουίτα αρ. 1, 2, 3 και 4, Σουΐτα για πνευστά και πιάνο, Σουίτα για τσέλο και πιάνο, Σονατίνα αρ. 1 και αρ. 2 για βιολί και πιάνο, Οιδίπους Τύραννος, Κοντσέρτο για πιάνο αρ. 1, Κοντσέρτο Ελικώνας και Αετός, Ραψωδία για τσέλο και ορχήστρα, Sinfonietta, Adagio, Συρτός Χανιώτικος για πιάνο και ορχήστρα, Ελεγείο αρ. 1, Ελεγείο Στο θάνατο του αγωνιστού,</value>
   </data>
 </root>

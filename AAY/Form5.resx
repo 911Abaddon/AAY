@@ -117,20 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="plessas" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\plessas.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="gallia_0" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\gallia_0.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="stavros-xarhokos" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\stavros-xarhokos.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="mikis-theodorakis-1983" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\mikis-theodorakis-1983.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="stavros xarchakos1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\stavros xarchakos1.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="richTextBox1.Text" xml:space="preserve">
+    <value>Ο Σταύρος Ξαρχάκος (Αθήνα, 14 Μαρτίου 1939) είναι Έλληνας συνθέτης και μαέστρος. Θεωρείται ένας από τους σημαντικότερους σύγχρονους Έλληνες συνθέτες του έντεχνου και λαϊκού τραγουδιού.
+
+Γεννήθηκε στην Αθήνα. Σπούδασε στο Ωδείο Αθηνών και συνέχισε τις σπουδές του στο Παρίσι και στη Σχολή Τζούλιαρντ της Νέας Υόρκης. Έχει γράψει τραγούδια για περισσότερους από 42 δίσκους, μουσική για 21 ταινίες και 15 τηλεοπτικές παραγωγές. Ακόμα, έχει συνθέσει μουσική για αρχαία τραγωδία, δράματα και διεθνή μπαλέτα.
+
+Στην αρχή της σταδιοδρομίας του γράφει μουσική κυρίως για το θέατρο και τον κινηματογράφο και έτσι ξεχώρισε ως συνθέτης κινηματογραφικής και θεατρικής μουσικής.
+Πρώτη του μεγάλη επιτυχία είναι η μουσική το 1963 για την κινηματογραφική ταινία του Βασίλη Γεωργιάδη Τα κόκκινα φανάρια: τα τραγούδια «Άπονη ζωή», «Φτωχολογιά», που τα ερμήνευσε ο Γρηγόρης Μπιθικώτσης, και το «Παράπονο» (ερμηνεία από Τζένη Καρέζη). Τα τραγούδια αυτά έγιναν πολύ σύντομα επιτυχίες και ήταν τα πρώτα τραγούδια, που ηχογράφησαν ο Σταύρος Ξαρχάκος ως συνθέτης, όπως κι ο Λευτέρης Παπαδόπουλος ως στιχουργός.
+Με τον τίτλο Κόκκινα φανάρια κυκλοφορεί και ο πρώτος του μεγάλος δίσκος, που εμπλουτίζεται με τις επιτυχίες «Σαββατόβραδο στην Καισαριανή» και ερμηνευτή τον Μπιθικώτση, «Βάλε κι άλλο πιάτο στο τραπέζι» με ερμηνεία από την Βίκυ Μοσχολιού (όλα σε στίχους Λευτέρη Παπαδόπουλου). Όταν από το 1965 και μετά ο στιχουργός και ποιητής Νίκος Γκάτσος συνεργάστηκε με τον Σταύρο Ξαρχάκο, αποτέλεσε άλλη μια συνεργασία πολύ γόνιμη σε μεγάλες και διαχρονικές επιτυχίες: «Άσπρη μέρα», «Μάτια βουρκωμένα», πάλι με την ερμηνεία του Μπιθικώτση, «Στου Όθωνα τα χρόνια (Ένα μεσημέρι)», «Με τι καρδιά τον κόσμο ν' αρνηθώ» (ερμηνευτής ο Σταμάτης Κόκοτας) και πολλά άλλα.
+Η συνεργασία Ξαρχάκου και Γκάτσου συνεχίστηκε και την δεκαετία του ’70 και στη μεταπολίτευση και με άλλα τραγούδια, που ερμήνευσε μεταξύ άλλων και ο Νίκος Ξυλούρης: «Ήτανε μια φορά», «Γεια σου χαρά σου Βενετιά», «Έβαλε ο Θεός σημάδι», «Παραμύθι παραμύθι» και πολλά άλλα. Η συνεργασία με τον Ξυλούρη είχε ήδη ξεκινήσει το 1972 με τον δίσκο "Διόνυσε καλοκαίρι μας", όπου συμμετείχε και η Αφροδίτη Μάνου. Ο Σταύρος Ξαρχάκος επίσης από τα τέλη της δεκαετίας του ’60 άρχισε να γράφει και κλασική μουσική. Στα έργα του περιλαμβάνονται σουίτες μπαλέτου, κοντσέρτα αλλά και συμφωνικά έργα.
+Σπουδαίος δίσκος του θεωρείται το βραβευμένο έργο Ρεμπέτικο (1983), που ήταν και μουσική για την ομότιτλη ταινία σε σκηνοθεσία του Κώστα Φέρρη.
+Ο Σταύρος Ξαρχάκος είναι επίσης ενορχηστρωτής, με πιο πρόσφατη ενορχηστρωτική δουλειά του τον δίσκο Ερημιά του Μίκη Θεοδωράκη και του Λευτέρη Παπαδόπουλου.</value>
   </data>
 </root>
