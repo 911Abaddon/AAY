@@ -47,5 +47,11 @@ namespace AAY
             frmTicketBooking newForm = new frmTicketBooking();
             newForm.Show();
         }
+
+        private void pictureBox6_Click(object sender, EventArgs e)
+        {
+            Form6 form6 = new Form6();
+            form6.Show();
+        }
     }
 }
