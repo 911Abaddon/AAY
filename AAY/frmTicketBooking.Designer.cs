@@ -31,19 +31,16 @@ namespace AAY
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.lbltotalcost = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.listCostumers = new System.Windows.Forms.ListBox();
+            this.Customers = new System.Windows.Forms.ListBox();
             this.panel3 = new System.Windows.Forms.Panel();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.button3 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
-            this.labelprice = new System.Windows.Forms.Label();
-            this.labeltotalprice = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.PnChair = new System.Windows.Forms.TableLayoutPanel();
@@ -66,6 +63,16 @@ namespace AAY
             this.panel1.Size = new System.Drawing.Size(1200, 154);
             this.panel1.TabIndex = 0;
             // 
+            // lbltotalcost
+            // 
+            this.lbltotalcost.AutoSize = true;
+            this.lbltotalcost.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
+            this.lbltotalcost.Location = new System.Drawing.Point(442, 54);
+            this.lbltotalcost.Name = "lbltotalcost";
+            this.lbltotalcost.Size = new System.Drawing.Size(56, 24);
+            this.lbltotalcost.TabIndex = 1;
+            this.lbltotalcost.Text = "Label";
+            // 
             // label1
             // 
             this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -77,6 +84,7 @@ namespace AAY
             this.label1.TabIndex = 0;
             this.label1.Text = "TICKET BOOKING";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // panel2
             // 
@@ -90,7 +98,7 @@ namespace AAY
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.listCostumers);
+            this.groupBox1.Controls.Add(this.Customers);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
@@ -100,17 +108,18 @@ namespace AAY
             this.groupBox1.Size = new System.Drawing.Size(300, 538);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Costumers Info";
+            this.groupBox1.Text = "Customers Info";
             // 
-            // listCostumers
+            // Customers
             // 
-            this.listCostumers.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listCostumers.FormattingEnabled = true;
-            this.listCostumers.ItemHeight = 18;
-            this.listCostumers.Location = new System.Drawing.Point(4, 22);
-            this.listCostumers.Name = "listCostumers";
-            this.listCostumers.Size = new System.Drawing.Size(292, 511);
-            this.listCostumers.TabIndex = 0;
+            this.Customers.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Customers.FormattingEnabled = true;
+            this.Customers.ItemHeight = 18;
+            this.Customers.Location = new System.Drawing.Point(4, 22);
+            this.Customers.Name = "Customers";
+            this.Customers.Size = new System.Drawing.Size(292, 511);
+            this.Customers.TabIndex = 0;
+            this.Customers.SelectedIndexChanged += new System.EventHandler(this.Customers_SelectedIndexChanged);
             // 
             // panel3
             // 
@@ -123,13 +132,10 @@ namespace AAY
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.lbltotalcost);
             this.groupBox2.Controls.Add(this.button3);
-            this.groupBox2.Controls.Add(this.button2);
             this.groupBox2.Controls.Add(this.button1);
-            this.groupBox2.Controls.Add(this.labelprice);
-            this.groupBox2.Controls.Add(this.labeltotalprice);
             this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox2.Location = new System.Drawing.Point(0, 0);
             this.groupBox2.Name = "groupBox2";
@@ -139,70 +145,32 @@ namespace AAY
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(695, 129);
+            this.button3.Location = new System.Drawing.Point(541, 129);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(163, 65);
             this.button3.TabIndex = 6;
             this.button3.Text = "CLOSE";
             this.button3.UseVisualStyleBackColor = true;
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(352, 129);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(163, 65);
-            this.button2.TabIndex = 5;
-            this.button2.Text = "CANCEL TICKETS";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(7, 129);
+            this.button1.Location = new System.Drawing.Point(150, 129);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(163, 65);
             this.button1.TabIndex = 4;
             this.button1.Text = "BOOK NOW";
             this.button1.UseVisualStyleBackColor = true;
-            // 
-            // labelprice
-            // 
-            this.labelprice.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
-            this.labelprice.Location = new System.Drawing.Point(259, 22);
-            this.labelprice.Name = "labelprice";
-            this.labelprice.Size = new System.Drawing.Size(382, 46);
-            this.labelprice.TabIndex = 3;
-            this.labelprice.Text = "Price";
-            this.labelprice.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
-            // labeltotalprice
-            // 
-            this.labeltotalprice.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
-            this.labeltotalprice.Location = new System.Drawing.Point(259, 68);
-            this.labeltotalprice.Name = "labeltotalprice";
-            this.labeltotalprice.Size = new System.Drawing.Size(382, 41);
-            this.labeltotalprice.TabIndex = 2;
-            this.labeltotalprice.Text = "Price";
-            this.labeltotalprice.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            this.labeltotalprice.Click += new System.EventHandler(this.label4_Click);
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // label3
             // 
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
-            this.label3.Location = new System.Drawing.Point(3, 68);
+            this.label3.Location = new System.Drawing.Point(148, 54);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(165, 41);
             this.label3.TabIndex = 1;
             this.label3.Text = "Total Price";
-            // 
-            // label2
-            // 
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(161)));
-            this.label2.Location = new System.Drawing.Point(2, 22);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(166, 37);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "Price";
             // 
             // panel4
             // 
@@ -252,6 +220,7 @@ namespace AAY
             this.PnChair.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.PnChair.Size = new System.Drawing.Size(894, 307);
             this.PnChair.TabIndex = 0;
+            this.PnChair.Paint += new System.Windows.Forms.PaintEventHandler(this.PnChair_Paint);
             // 
             // frmTicketBooking
             // 
@@ -274,10 +243,16 @@ namespace AAY
             this.groupBox1.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.panel4.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.ResumeLayout(false);
 
+        }
+
+        private void btn(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         private void label4_Click(object sender, EventArgs e)
@@ -291,18 +266,15 @@ namespace AAY
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.ListBox listCostumers;
+        private System.Windows.Forms.ListBox Customers;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Label labelprice;
-        private System.Windows.Forms.Label labeltotalprice;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.TableLayoutPanel PnChair;
+        private System.Windows.Forms.Label lbltotalcost;
     }
 }
